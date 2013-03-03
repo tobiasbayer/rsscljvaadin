@@ -9,7 +9,9 @@
            Button$ClickListener 
            Notification]
           [com.vaadin.event
-           ItemClickEvent$ItemClickListener])
+           ItemClickEvent$ItemClickListener]
+          [com.vaadin.data.util
+           IndexedContainer])
   (require [rsscljvaadin.rss :as rss])
   (:gen-class
     :extends com.vaadin.ui.UI))
@@ -43,12 +45,8 @@
 (defn- create-feed-table
   [content-label]
   (doto (Table.)
-    (.addContainerProperty "Title" String nil)
-    (.addContainerProperty "Link" String nil)
-    (.addContainerProperty "Description" String nil)
     (.setWidth "100%")
     (.setHeight "50%")
-    ;(.setVisibleColumns (to-array ["Title" "Link"]))
     (.setSelectable true)
     (.setImmediate true)
     (.addItemClickListener (create-item-click-listener content-label))))
@@ -65,11 +63,22 @@
     (.setInputPrompt "Feed URL")
     (.setWidth "50%")))
 
+(defn- create-container
+  [items]
+  (let [c (IndexedContainer.)]
+    (.addContainerProperty c "Title" String nil)
+    (.addContainerProperty c "Link" String nil)
+    (.addContainerProperty c "Description" String nil)
+    (doseq [item items]
+      (let [i (.addItem c (Object.))]
+        (.setValue (.getItemProperty i "Title") (:title item))
+        (.setValue (.getItemProperty i "Link") (:link item))
+        (.setValue (.getItemProperty i "Description") (:description item))))
+    c))
+
 (defn- fetch-feed
   [url table]
-  (.removeAllItems table)
-  (doseq [item (rss/fetch-feed url)]
-      (.addItem table (to-array [(:title item) (:link item) (:description item)]) (Object.))))
+  (.setContainerDataSource table (create-container (rss/fetch-feed url)) (java.util.ArrayList. ["Title" "Link"])))
 
 (defn- create-main-layout
   []
