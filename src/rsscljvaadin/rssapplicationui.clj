@@ -3,6 +3,7 @@
            VerticalLayout
            HorizontalLayout
            Table
+           Table$ColumnHeaderMode
            Label
            TextField
            Button 
@@ -17,7 +18,7 @@
            ExternalResource])
   (require [rsscljvaadin.rss :as rss])
   (:gen-class
-   	:name rsscljvaadin.RSSApplicationUI
+    :name rsscljvaadin.RSSApplicationUI
     :extends com.vaadin.ui.UI))
 
 (defn- create-button-click-listener 
@@ -51,6 +52,7 @@
     (.setHeight "50%")
     (.setSelectable true)
     (.setImmediate true)
+    (.setColumnHeaderMode Table$ColumnHeaderMode/HIDDEN)
     (.addItemClickListener (create-item-click-listener content-label link-label))))
 
  (defn- create-feed-content-label
