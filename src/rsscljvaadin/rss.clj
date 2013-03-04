@@ -13,7 +13,7 @@
   [tag coll]
   (first (flatten (extract-content (filter-tag tag coll)))))
 
- (defn- channel
+(defn- channel
   [feed]
   (first (:content feed)))
 
