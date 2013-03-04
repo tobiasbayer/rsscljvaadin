@@ -7,19 +7,18 @@
            TextField
            Button 
            Button$ClickListener 
-           Notification]
+           Link]
+          ;TODO check imports necessary?
           [com.vaadin.event
            ItemClickEvent$ItemClickListener]
           [com.vaadin.data.util
-           IndexedContainer])
+           IndexedContainer]
+          [com.vaadin.server
+           ExternalResource])
   (require [rsscljvaadin.rss :as rss])
   (:gen-class
    	:name rsscljvaadin.RSSApplicationUI
     :extends com.vaadin.ui.UI))
-
-(defn- show-click-message
-  []
-  (Notification/show "Button clicked"))
 
 (defn- create-button-click-listener 
   [action]
@@ -34,7 +33,8 @@
     (itemClick
      [_ evt]
      (.setValue content-label (.getValue (.getItemProperty (.getItem evt) "Description")))
-     (.setValue link-label (.getValue (.getItemProperty (.getItem evt) "Link"))))))
+     (.setCaption link-label (.getValue (.getItemProperty (.getItem evt) "Link")))
+     (.setResource link-label (ExternalResource. (.getValue (.getItemProperty (.getItem evt) "Link")))))))
 
 (defn- add-action
   [button action]
@@ -84,7 +84,8 @@
 
 (defn- create-link-label
   []
-  (Label.))
+  (doto (Link.)
+    (.setTargetName "_blank")))
 
 (defn- create-main-layout
   []
