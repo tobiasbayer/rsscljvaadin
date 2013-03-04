@@ -29,11 +29,12 @@
               (action))))
 
 (defn- create-item-click-listener
-  [content-label]
+  [content-label link-label]
   (reify ItemClickEvent$ItemClickListener
     (itemClick
      [_ evt]
-     (.setValue content-label (.getValue (.getItemProperty (.getItem evt) "Description"))))))
+     (.setValue content-label (.getValue (.getItemProperty (.getItem evt) "Description")))
+     (.setValue link-label (.getValue (.getItemProperty (.getItem evt) "Link"))))))
 
 (defn- add-action
   [button action]
@@ -44,13 +45,13 @@
   (doto (Button. caption) (add-action action)))
 
 (defn- create-feed-table
-  [content-label]
+  [content-label link-label]
   (doto (Table.)
     (.setWidth "100%")
     (.setHeight "50%")
     (.setSelectable true)
     (.setImmediate true)
-    (.addItemClickListener (create-item-click-listener content-label))))
+    (.addItemClickListener (create-item-click-listener content-label link-label))))
 
  (defn- create-feed-content-label
   []
@@ -79,13 +80,18 @@
 
 (defn- fetch-feed
   [url table]
-  (.setContainerDataSource table (create-container (rss/fetch-feed url)) (java.util.ArrayList. ["Title" "Link"])))
+  (.setContainerDataSource table (create-container (rss/fetch-feed url)) (java.util.ArrayList. ["Title"])))
+
+(defn- create-link-label
+  []
+  (Label.))
 
 (defn- create-main-layout
   []
   (let [content-label (create-feed-content-label)
         url-field (create-url-field)
-        feed-table (create-feed-table content-label)]
+        link-label (create-link-label)
+        feed-table (create-feed-table content-label link-label)]
   	(doto (VerticalLayout.)
     	(.setMargin true)
     	(.setSpacing true)
@@ -94,7 +100,8 @@
                        (.addComponent url-field)
                        (.addComponent (create-button "Fetch" #(fetch-feed (.getValue url-field) feed-table)))))
 	    (.addComponent feed-table)
-    	(.addComponent content-label))))
+    	(.addComponent content-label)
+      (.addComponent link-label))))
 
 (defn -init
   [main-ui request]
