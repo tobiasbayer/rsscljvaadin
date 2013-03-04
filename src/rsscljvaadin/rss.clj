@@ -35,4 +35,8 @@
 
 (defn fetch-feed
   [url]
-  (map #(hash-map :title (title %) :link (link %) :description (description %)) (items (channel (xml/parse url)))))
+  (map #(hash-map 
+         :title (title %) 
+         :link (link %) 
+         :description (description %)) 
+       (items (channel (xml/parse url)))))
