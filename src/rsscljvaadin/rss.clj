@@ -36,12 +36,3 @@
 (defn fetch-feed
   [url]
   (map #(hash-map :title (title %) :link (link %) :description (description %)) (items (channel (xml/parse url)))))
-
-
-;TODO remove this function
-(defn -main
-  []
-  (doseq [item (items (channel "http://www.spiegel.de/schlagzeilen/tops/index.rss"))]
-          (println (title item))
-      		(println (link item))
-      	  (println (description item))))
