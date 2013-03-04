@@ -8,4 +8,4 @@
                  [com.vaadin/vaadin-client-compiled "7.0.1"]
                  [com.vaadin/vaadin-themes "7.0.1"]
                  [javax.servlet/servlet-api "2.5"]]
-  :aot [rsscljvaadin.RSSApplicationUI])
+  :aot [rsscljvaadin.rssapplicationui])

@@ -1,4 +1,4 @@
-(ns rsscljvaadin.RSSApplicationUI
+(ns rsscljvaadin.rssapplicationui
   (import [com.vaadin.ui 
            VerticalLayout
            HorizontalLayout
@@ -14,6 +14,7 @@
            IndexedContainer])
   (require [rsscljvaadin.rss :as rss])
   (:gen-class
+   	:name rsscljvaadin.RSSApplicationUI
     :extends com.vaadin.ui.UI))
 
 (defn- show-click-message
