@@ -94,14 +94,23 @@
   (let [content-label (create-feed-content-label)
         url-field (create-url-field)
         link-label (create-link-label)
-        feed-table (create-feed-table content-label link-label)]
+        feed-table (create-feed-table content-label link-label)
+        fetch-button (create-button 
+                      "Fetch" 
+                      #(fetch-feed 
+                        (.getValue url-field) 
+                        feed-table))]
   	(doto (VerticalLayout.)
     	(.setMargin true)
     	(.setSpacing true)
       (.addComponent (doto (HorizontalLayout.)
                        (.setWidth "100%")
-                       (.addComponent url-field)
-                       (.addComponent (create-button "Fetch" #(fetch-feed (.getValue url-field) feed-table)))))
+                       (.setSpacing true)
+                       (.addComponent 
+                        (doto url-field 
+                          (.setWidth "100%")))
+                       (.setExpandRatio url-field 1)
+                       (.addComponent fetch-button)))
 	    (.addComponent feed-table)
     	(.addComponent content-label)
       (.addComponent link-label))))
