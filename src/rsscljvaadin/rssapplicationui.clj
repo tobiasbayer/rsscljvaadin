@@ -115,5 +115,5 @@
       (.addComponent link-label))))
 
 (defn -init
-  [main-ui request]
+  [main-ui _]
   (doto main-ui (.setContent (create-main-layout))))
