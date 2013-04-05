@@ -9,7 +9,6 @@
            Button 
            Button$ClickListener 
            Link]
-          ;TODO check imports necessary?
           [com.vaadin.event
            ItemClickEvent$ItemClickListener]
           [com.vaadin.data.util
