@@ -2,36 +2,31 @@
   (:require [clojure.xml :as xml]))
 
 (defn- filter-tag
-  [tag coll]
-  (filter #(= (:tag %) tag) (:content coll)))
+  [content tag]
+  (filter #(= (:tag %) tag) content))
 
-(defn- extract-content
-  [coll]
-  (map #(:content %) coll))
+(defn- node-value [node]
+  (first (:content node)))
 
-(defn- extract-tag-content
-  [tag coll]
-  (first (flatten (extract-content (filter-tag tag coll)))))
+(defn- node
+  [entry tag]
+  (first (filter-tag (:content entry) tag)))
+ 
+(defn- title 
+  [entry]
+  (node-value (node entry :title)))
 
-(defn- channel
-  [feed]
-  (first (:content feed)))
+(defn- link 
+  [entry]
+  (node-value (node entry :link)))
+
+(defn- description 
+  [entry]
+  (node-value (node entry :description)))
 
 (defn- items
-  [channel]
-  (filter-tag :item channel))
-
-(defn- title
-  [item]
-  (extract-tag-content :title item))
-
-(defn- description
-  [item]
-  (extract-tag-content :description item))
-
-(defn- link
-  [item]
-  (extract-tag-content :link item))
+  [feed]
+  (filter-tag feed :item))
 
 (defn fetch-feed
   [url]
@@ -39,4 +34,4 @@
          :title (title %) 
          :link (link %) 
          :description (description %)) 
-       (items (channel (xml/parse url)))))
+           (items (xml-seq (xml/parse url)))))
