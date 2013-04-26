@@ -79,7 +79,7 @@
         (.setValue (.getItemProperty i "Description") (:description item))))
     c))
 
-(defn- fetch-feed
+(defn- display-feed
   [url table]
   (.setContainerDataSource table (create-container (rss/fetch-feed url)) (java.util.ArrayList. ["Title"])))
 
@@ -96,7 +96,7 @@
         feed-table (create-feed-table content-label link-label)
         fetch-button (create-button 
                       "Fetch" 
-                      #(fetch-feed 
+                      #(display-feed 
                         (.getValue url-field) 
                         feed-table))]
   	(doto (VerticalLayout.)
