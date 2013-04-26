@@ -8,21 +8,21 @@
 (defn- node-value [node]
   (first (:content node)))
 
-(defn- node
-  [entry tag]
-  (first (filter-tag (:content entry) tag)))
+(defn- subnode
+  [node tag]
+  (first (filter-tag (:content node) tag)))
  
 (defn- title 
-  [entry]
-  (node-value (node entry :title)))
+  [item]
+  (node-value (subnode item :title)))
 
 (defn- link 
-  [entry]
-  (node-value (node entry :link)))
+  [item]
+  (node-value (subnode item :link)))
 
 (defn- description 
-  [entry]
-  (node-value (node entry :description)))
+  [item]
+  (node-value (subnode item :description)))
 
 (defn- items
   [feed]
