@@ -1,13 +1,5 @@
-# rss
+# rsscljvaadin
 
-A Clojure library designed to ... well, that part is up to you.
+A RSS reader implemented in Clojure with Vaadin 7 as a frontend framework.
 
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2013 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
+This is a sample application for my article about Clojure and Vaadin 7 which is published in [Java Magazin 07.2013](https://jaxenter.de/java-magazin-archiv).
