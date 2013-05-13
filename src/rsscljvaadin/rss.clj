@@ -5,7 +5,8 @@
   [content tag]
   (filter #(= (:tag %) tag) content))
 
-(defn- node-value [node]
+(defn- node-value 
+  [node]
   (first (:content node)))
 
 (defn- subnode
